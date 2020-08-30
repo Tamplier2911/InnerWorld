@@ -1,0 +1,59 @@
+:root {
+  --cl-main: ;
+  --cl-secondary: ;
+  --cl-font: #333;
+  --cl-grey: #929292;
+  --cl-white: #fff;
+  --cl-black: #000;
+
+  --font-main: 'Roboto';
+  --font-secondary: 'Dosis';
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+
+  @media only screen and (max-width: 48em) {
+    font-size: 56.25%;
+  }
+
+  @media only screen and (max-width: 26.563em) {
+    font-size: 50%;
+  }
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family: var(--font-main), sans-serif;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--cl-font);
+}
+
+select,
+textarea,
+input[type='text'],
+input[type='password'],
+input[type='datetime'],
+input[type='datetime-local'],
+input[type='date'],
+input[type='month'],
+input[type='time'],
+input[type='week'],
+input[type='number'],
+input[type='email'],
+input[type='url'],
+input[type='search'],
+input[type='tel'],
+input[type='color'] {
+  font-size: 16px !important;
+}
