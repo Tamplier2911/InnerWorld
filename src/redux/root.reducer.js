@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 
 // reducers
-import dummyReducer from './src1/dummy.reducer';
+import popupReducer from './popup/popup.reducer.js';
+import listReducer from './list/list.reducer.js';
 
 const rootReducer = combineReducers({
-  dummy: dummyReducer,
+  popup: popupReducer,
+  list: listReducer,
 });
 
 export default rootReducer;

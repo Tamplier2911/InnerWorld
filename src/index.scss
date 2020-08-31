@@ -1,10 +1,12 @@
 :root {
-  --cl-main: ;
+  --cl-main: #3f51b5;
   --cl-secondary: ;
+  --cl-selected: #3f51b51e;
   --cl-font: #333;
   --cl-grey: #929292;
   --cl-white: #fff;
   --cl-black: #000;
+  --cl-shadow: rgba(0, 0, 0, 0.384);
 
   --font-main: 'Roboto';
   --font-secondary: 'Dosis';
@@ -13,6 +15,7 @@
 html {
   box-sizing: border-box;
   font-size: 62.5%;
+  scroll-behavior: smooth;
 
   @media only screen and (max-width: 48em) {
     font-size: 56.25%;
