@@ -2,12 +2,14 @@ import './App.scss';
 import React from 'react';
 
 // routing
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 // redux
+import { useSelector } from 'react-redux';
 
 // pages
 import HomePage from './pages/HomePage/HomePage.jsx';
+import PopupPage from './pages/PopupPage/PopupPage.jsx';
 import CheckPage from './pages/CheckPage/CheckPage.jsx';
 import TabsPage from './pages/TabsPage/TabsPage.jsx';
 
@@ -30,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 const App = () => {
   const classes = useStyles();
+  const { isLogged } = useSelector((state) => state.auth);
 
   return (
     <div>
@@ -38,9 +41,28 @@ const App = () => {
         <Container className={classes.container} maxWidth="lg">
           <Menu />
           <Switch>
-            <Route exact path="/page-2" component={CheckPage} />
-            <Route exact path="/page-3" component={TabsPage} />
-            <Route exact path="/" component={HomePage} />
+            <Route
+              exact
+              path="/page-1"
+              render={() => (isLogged ? <PopupPage /> : <HomePage />)}
+            />
+            <Route
+              exact
+              path="/page-2"
+              render={() => (isLogged ? <CheckPage /> : <HomePage />)}
+            />
+            <Route
+              exact
+              path="/page-3"
+              render={() => (isLogged ? <TabsPage /> : <HomePage />)}
+            />
+            <Route
+              exact
+              path="/"
+              render={() =>
+                isLogged ? <Redirect to="/page-1" /> : <HomePage />
+              }
+            />
           </Switch>
         </Container>
       </Box>

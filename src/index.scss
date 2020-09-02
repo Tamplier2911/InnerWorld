@@ -66,10 +66,15 @@ input[type='color'] {
     position: relative;
   }
 
+  #homepage {
+    align-items: flex-start;
+  }
+
   #homepage,
   #checkpage,
-  #tabspage {
+  #tabspage,
+  #popuppage {
     margin-left: 0;
-    max-height: 75vh;
+    max-height: 70vh;
   }
 }

@@ -1,5 +1,9 @@
-import './Header.scss';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+
+// redux
+import { useSelector, useDispatch } from 'react-redux';
+import { logUserOut } from '../../redux/auth/auth.actions';
 
 // mui
 import {
@@ -9,39 +13,33 @@ import {
   Button,
   Typography,
   makeStyles,
+  Avatar,
 } from '@material-ui/core';
 
 // dynamic text change
 import { useLocation } from 'react-router-dom';
 
-const useStyles = makeStyles((theme) => ({
-  text: {
-    justifySelf: 'center',
-  },
-  btn: {
-    fontSize: '1.6rem',
-  },
-  toolbarLeft: {},
-  toolbarMid: {
-    flex: 1,
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  toolbarRight: {},
-}));
+// styles
+import headerStyles from './HeaderStyles.js';
+const useStyles = makeStyles(headerStyles);
 
 const Header = () => {
   const { btn, toolbarLeft, toolbarMid, toolbarRight } = useStyles();
   const { pathname } = useLocation();
+  const history = useHistory();
+
+  // redux
+  const { isLogged, authObject } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const getLocationText = (pathname) => {
-    return pathname === '/'
+    return pathname === '/page-1'
       ? 'Page - 1'
       : pathname === '/page-2'
       ? 'Page - 2'
       : pathname === '/page-3'
       ? 'Page - 3'
-      : 'Page - 1';
+      : 'Home Page';
   };
 
   return (
@@ -49,9 +47,12 @@ const Header = () => {
       <AppBar position="static">
         <Toolbar>
           <Box className={toolbarLeft} component="div">
-            <Typography variant="h4" component="span">
-              WorldIn
+            <Typography variant={isLogged ? 'h5' : 'h4'} component="span">
+              {isLogged ? authObject?.name : 'WorldIn'}
             </Typography>
+            {isLogged ? (
+              <Avatar alt={authObject?.name} src={authObject?.photo} />
+            ) : null}
           </Box>
           <Box className={toolbarMid} component="div">
             <Typography variant="h5" component="span">
@@ -59,8 +60,17 @@ const Header = () => {
             </Typography>
           </Box>
           <Box className={toolbarRight} component="div">
-            <Button className={btn} size="large" color="inherit">
-              Login
+            <Button
+              className={btn}
+              size="large"
+              color="inherit"
+              onClick={() =>
+                isLogged
+                  ? dispatch(logUserOut()) && history.push('/')
+                  : history.push('/')
+              }
+            >
+              {isLogged ? 'Logout' : 'Login'}
             </Button>
           </Box>
         </Toolbar>

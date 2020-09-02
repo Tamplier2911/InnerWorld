@@ -1,4 +1,3 @@
-import './Menu.scss';
 import React from 'react';
 
 // router
@@ -7,23 +6,9 @@ import { useLocation, useHistory } from 'react-router-dom';
 // mui
 import { MenuList, MenuItem, Box, makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
-  box: {
-    position: 'fixed',
-    minWidth: '25rem',
-  },
-  menuitem: {
-    fontSize: '1.6rem',
-    justifyContent: 'center',
-    transition: 'color .3s, background-color .3s',
-  },
-  selected: {
-    fontSize: '1.6rem',
-    justifyContent: 'center',
-    backgroundColor: 'var(--cl-selected)',
-    transition: 'color .3s, background-color .3s',
-  },
-}));
+// styles
+import menuStyles from './MenuStyles.js';
+const useStyles = makeStyles(menuStyles);
 
 const Menu = () => {
   const { box, menuitem, selected } = useStyles();
@@ -38,8 +23,8 @@ const Menu = () => {
     <Box className={box} component="div" id="menu">
       <MenuList>
         <MenuItem
-          className={getRespectiveClass('/', pathname)}
-          onClick={() => history.push('/')}
+          className={getRespectiveClass('/page-1', pathname)}
+          onClick={() => history.push('/page-1')}
         >
           Page 1
         </MenuItem>

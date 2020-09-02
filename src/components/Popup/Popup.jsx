@@ -1,4 +1,3 @@
-import './Popup.scss';
 import React, { createRef } from 'react';
 
 // redux
@@ -20,21 +19,9 @@ import {
 
 import { Pagination, PaginationItem } from '@material-ui/lab';
 
-const useStyles = makeStyles((theme) => ({
-  dialogContent: {},
-  btn: {
-    fontSize: '1.4rem',
-  },
-  pagebtn: {
-    fontSize: '1.4rem',
-    color: 'var(--cl-grey)',
-    backgroundColor: 'var(--cl-white)',
-  },
-  pagebtnChecked: {
-    fontSize: '1.4rem',
-    backgroundColor: 'var(--cl-selected)',
-  },
-}));
+// styles
+import popupStyles from './PopupStyles.js';
+const useStyles = makeStyles(popupStyles);
 
 const Popup = () => {
   const { dialogContent, btn, pagebtn, pagebtnChecked } = useStyles();

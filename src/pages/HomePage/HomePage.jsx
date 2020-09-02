@@ -1,18 +1,13 @@
 import './HomePage.scss';
 import React from 'react';
 
-// redux
-import { useDispatch } from 'react-redux';
-import { openPopup } from '../../redux/popup/popup.actions';
-
-// components
-import Popup from '../../components/Popup/Popup.jsx';
-
-// mui
 import { Box, makeStyles, Button } from '@material-ui/core';
 
+// components
+import LoginForm from '../../components/LoginForm/LoginForm.jsx';
+
 const useStyles = makeStyles((theme) => ({
-  popuppage: {
+  homepage: {
     height: '85vh',
     display: 'flex',
     padding: '8px 0px',
@@ -25,20 +20,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const HomePage = () => {
-  const { popuppage, btn } = useStyles();
-  const dispatch = useDispatch();
+  const { homepage, btn } = useStyles();
+
   return (
-    <Box className={popuppage} component="section" id="homepage">
-      <Button
-        className={btn}
-        size="large"
-        variant="contained"
-        color="primary"
-        onClick={() => dispatch(openPopup())}
-      >
-        Open
-      </Button>
-      <Popup />
+    <Box className={homepage} component="section" id="homepage">
+      <LoginForm />
     </Box>
   );
 };
