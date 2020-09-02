@@ -1,6 +1,6 @@
 :root {
   --cl-main: #3f51b5;
-  --cl-secondary: ;
+  // --cl-secondary: ;
   --cl-selected: #3f51b51e;
   --cl-font: #333;
   --cl-grey: #929292;
@@ -59,4 +59,17 @@ input[type='search'],
 input[type='tel'],
 input[type='color'] {
   font-size: 16px !important;
+}
+
+@media only screen and (max-width: 690px) {
+  #menu {
+    position: relative;
+  }
+
+  #homepage,
+  #checkpage,
+  #tabspage {
+    margin-left: 0;
+    max-height: 75vh;
+  }
 }

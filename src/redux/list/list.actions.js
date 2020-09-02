@@ -1,7 +1,11 @@
 import listTypes from './list.types.js';
-const { SET_LIST_ITEMS_CHECKED } = listTypes;
+const { TOGGLE_SINGLE_LIST_CHECK, TOGGLE_ALL_LIST_CHECK } = listTypes;
 
-export const setListItemsChecked = (checkedIds) => ({
-  type: SET_LIST_ITEMS_CHECKED,
-  payload: checkedIds,
+export const toggleSingleListCheck = (id) => ({
+  type: TOGGLE_SINGLE_LIST_CHECK,
+  payload: id,
+});
+
+export const toggleAllListCheck = () => ({
+  type: TOGGLE_ALL_LIST_CHECK,
 });

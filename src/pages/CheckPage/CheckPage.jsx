@@ -1,6 +1,9 @@
 import './CheckPage.scss';
 import React from 'react';
 
+// components
+import TableHolder from '../../components/TableHolder/TableHolder.jsx';
+
 // mui
 import { Box, makeStyles } from '@material-ui/core';
 
@@ -21,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
 const CheckPage = () => {
   const { checkpage, btn } = useStyles();
   return (
-    <Box className={checkpage} component="section">
-      Check Page
+    <Box className={checkpage} component="section" id="checkpage">
+      <TableHolder />
     </Box>
   );
 };

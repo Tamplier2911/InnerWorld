@@ -35,7 +35,7 @@ const Menu = () => {
   };
 
   return (
-    <Box className={box} component="div">
+    <Box className={box} component="div" id="menu">
       <MenuList>
         <MenuItem
           className={getRespectiveClass('/', pathname)}

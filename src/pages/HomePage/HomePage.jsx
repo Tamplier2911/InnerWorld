@@ -28,7 +28,7 @@ const HomePage = () => {
   const { popuppage, btn } = useStyles();
   const dispatch = useDispatch();
   return (
-    <Box className={popuppage} component="section">
+    <Box className={popuppage} component="section" id="homepage">
       <Button
         className={btn}
         size="large"

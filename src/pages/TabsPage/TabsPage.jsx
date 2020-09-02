@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 const TabsPage = () => {
   const { tabspage, btn } = useStyles();
   return (
-    <Box className={tabspage} component="section">
+    <Box className={tabspage} component="section" id="tabspage">
       Tabs Page
     </Box>
   );
