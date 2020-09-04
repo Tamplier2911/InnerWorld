@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 
 // redux
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeUser } from '../../redux/users/users.actions.js';
+
+// components
+import DialogFeed from '../DialogFeed/DialogFeed.jsx';
 
 // mui
 import {
@@ -17,11 +21,14 @@ import {
   TableCell,
   TableBody,
 } from '@material-ui/core';
+
 import {
   SearchOutlined,
   EditOutlined,
   DeleteOutline,
 } from '@material-ui/icons';
+
+import { Skeleton } from '@material-ui/lab';
 
 // styles
 import usersHolderStyles from './UsersHolderStyles.js';
@@ -49,7 +56,23 @@ const headers = [
   },
 ];
 
+const skiletons = [
+  {
+    id: 'skileton-users-table-1',
+  },
+  {
+    id: 'skileton-users-table-2',
+  },
+  {
+    id: 'skileton-users-table-3',
+  },
+  {
+    id: 'skileton-users-table-4',
+  },
+];
+
 const UsersHolder = ({ setValue, setEdit }) => {
+  // styles
   const {
     container,
     paper,
@@ -61,9 +84,20 @@ const UsersHolder = ({ setValue, setEdit }) => {
     rowCell,
     tableContainer,
   } = useStyles();
-  const [searchInput, setSearchInput] = useState('');
 
-  const { usersList } = useSelector((state) => state.users);
+  // redux
+  const { usersList, isLoading } = useSelector((state) => state.users);
+  const dispatch = useDispatch();
+
+  // inner state
+  const [searchInput, setSearchInput] = useState('');
+  const [dialogOpen, setDialogOpen] = useState({
+    open: false,
+    onClose: null,
+    action: null,
+    title: '',
+    text: '',
+  });
 
   const onInputChange = (e) => {
     const { value } = e.target;
@@ -106,7 +140,26 @@ const UsersHolder = ({ setValue, setEdit }) => {
           className={btn}
           color="primary"
           aria-label="user remove button"
-          onClick={(e) => console.log('removed')}
+          onClick={(e) => {
+            const resetObj = {
+              open: false,
+              onClose: null,
+              action: null,
+              title: '',
+              text: '',
+            };
+            // open popup
+            setDialogOpen({
+              open: true,
+              onClose: () => setDialogOpen(resetObj),
+              action: () => {
+                dispatch(removeUser(userObj));
+                setDialogOpen(resetObj);
+              },
+              title: 'Attention!',
+              text: `This action cannot be undone! Are you sure that you want to remove ${userObj.firstName} ${userObj.lastName} from databse?`,
+            });
+          }}
         >
           <DeleteOutline fontSize="large" />
         </IconButton>
@@ -158,33 +211,59 @@ const UsersHolder = ({ setValue, setEdit }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {filteredUsers.map((userObj) => {
-                  const { id, firstName, lastName, phone, email } = userObj;
-                  return (
-                    <TableRow hover key={id}>
-                      {headers.map((head, idx) => {
-                        return (
-                          <TableCell
-                            className={rowCell}
-                            key={`${id}-${idx}`}
-                            align="center"
-                          >
-                            {idx === 0
-                              ? `${firstName} ${lastName}`
-                              : idx === 1
-                              ? phone.join(', ')
-                              : renderButtons(userObj)}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
+                {isLoading
+                  ? skiletons.map((obj, i) => {
+                      const { id } = obj;
+                      return (
+                        <TableRow key={`${id}-${i}`}>
+                          {headers.map((head, idx) => {
+                            return (
+                              <TableCell
+                                className={rowCell}
+                                key={`${id}-${idx}`}
+                                align="center"
+                              >
+                                <Skeleton variant="text" key={id} />
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                      );
+                    })
+                  : filteredUsers.map((userObj) => {
+                      const {
+                        _id,
+                        firstName,
+                        lastName,
+                        phone,
+                        email,
+                      } = userObj;
+                      return (
+                        <TableRow hover key={_id}>
+                          {headers.map((head, idx) => {
+                            return (
+                              <TableCell
+                                className={rowCell}
+                                key={`${_id}-${idx}`}
+                                align="center"
+                              >
+                                {idx === 0
+                                  ? `${firstName} ${lastName}`
+                                  : idx === 1
+                                  ? phone.join(', ')
+                                  : renderButtons(userObj)}
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                      );
+                    })}
               </TableBody>
             </Table>
           </TableContainer>
         </Box>
       </Paper>
+      <DialogFeed {...dialogOpen} />
     </Box>
   );
 };

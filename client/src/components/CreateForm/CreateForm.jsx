@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { logUserInWithEmailAndPassword } from '../../redux/auth/auth.actions';
+import { createNewUser, updateUserData } from '../../redux/users/users.actions';
+
+// validator
+import createFormValidator from './CreateFormValidator';
 
 // mui
 import {
@@ -32,16 +35,8 @@ const CreateForm = ({ edit }) => {
     addBtn,
   } = useStyles();
 
-  // temporal dependencies
-  const inheritedState = {
-    firstName: 'Mary',
-    lastName: 'Jane',
-    phone: ['+380931222234', '+380991234321'],
-    email: ['mary@very.com', 'jane@pain.com'],
-  };
-  //   const edit = true;
-  //   console.log(edit.mode);
-  const isLoading = false;
+  const { isLoading } = useSelector((state) => state.users);
+  const dispatch = useDispatch();
 
   const [userCredentials, setUserCredentials] = useState({
     firstName: edit.mode ? edit.obj.firstName : '',
@@ -50,19 +45,52 @@ const CreateForm = ({ edit }) => {
     email: edit.mode ? edit.obj.email : [''],
   });
   const { firstName, lastName, phone, email } = userCredentials;
+  const [fieldErrors, setFieldErrors] = useState({
+    isValid: true,
+    firstName: '',
+    lastName: '',
+    phone: [],
+    email: [],
+  });
 
   const onFormSubmit = (e) => {
     e.preventDefault();
 
     // validate form input
-    // error
-    // helperText="Incorrect entry."
+    const valid = createFormValidator(userCredentials);
 
-    // perform login
+    if (!valid.isValid) {
+      setFieldErrors({ ...valid });
+      return;
+    }
+
+    // perform user creation
+    if (!edit.mode) dispatch(createNewUser(userCredentials));
+
+    // perform user update
+    if (edit.mode) {
+      userCredentials._id = edit.obj._id;
+      userCredentials.phone = userCredentials.phone.filter((str) => str !== '');
+      userCredentials.email = userCredentials.email.filter((str) => str !== '');
+      dispatch(updateUserData(userCredentials));
+    }
 
     // reset form inputs
+    setUserCredentials({
+      firstName: '',
+      lastName: '',
+      phone: [''],
+      email: [''],
+    });
 
-    console.log(userCredentials);
+    // reset errors
+    setFieldErrors({
+      isValid: true,
+      firstName: '',
+      lastName: '',
+      phone: [],
+      email: [],
+    });
   };
 
   const onInputChange = (e) => {
@@ -87,7 +115,10 @@ const CreateForm = ({ edit }) => {
     return arrayOfPhones.map((phone, i) => {
       return (
         <TextField
-          required
+          {...(!fieldErrors.isValid && fieldErrors.phone[i]
+            ? { error: true, helperText: fieldErrors.phone[i] }
+            : {})}
+          {...(i === 0 ? { required: true } : { required: false })}
           className={form}
           id={`createform-phone-${i}`}
           key={`createform-phone-${i}`}
@@ -105,7 +136,10 @@ const CreateForm = ({ edit }) => {
     return arrayOfEmails.map((email, i) => {
       return (
         <TextField
-          required
+          {...(!fieldErrors.isValid && fieldErrors.email[i]
+            ? { error: true, helperText: fieldErrors.email[i] }
+            : {})}
+          {...(i === 0 ? { required: true } : { required: false })}
           className={form}
           id={`createform-email-${i}`}
           key={`createform-email-${i}`}
@@ -131,6 +165,9 @@ const CreateForm = ({ edit }) => {
         autoComplete="off"
       >
         <TextField
+          {...(!fieldErrors.isValid && fieldErrors.firstName
+            ? { error: true, helperText: fieldErrors.firstName }
+            : {})}
           required
           className={form}
           id="createform-firstname"
@@ -141,6 +178,9 @@ const CreateForm = ({ edit }) => {
           onChange={(e) => onInputChange(e)}
         />
         <TextField
+          {...(!fieldErrors.isValid && fieldErrors.lastName
+            ? { error: true, helperText: fieldErrors.lastName }
+            : {})}
           required
           className={form}
           id="createform-lastname"

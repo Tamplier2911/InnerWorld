@@ -10,6 +10,9 @@ const createFormStyles = (theme) => ({
   form: {
     display: 'flex',
     flexDirection: 'column',
+    '& p': {
+      fontSize: '14px',
+    },
     '& div:not(:last-child)': {
       marginBottom: '6px',
     },

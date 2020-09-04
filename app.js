@@ -79,16 +79,6 @@ if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
-} else {
-  // on request to any route that is not covered - send 404 html
-  app.get('*', (req, res) => {
-    res.status(200).json({
-      success: true,
-      data: {
-        message: 'You are in development mode!',
-      },
-    });
-  });
 }
 
 app.use(globalErrorHandler);

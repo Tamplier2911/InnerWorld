@@ -1,26 +1,16 @@
-import './HomePage.scss';
 import React from 'react';
 
-import { Box, makeStyles, Button } from '@material-ui/core';
+import { Box, makeStyles } from '@material-ui/core';
 
 // components
 import LoginForm from '../../components/LoginForm/LoginForm.jsx';
 
-const useStyles = makeStyles((theme) => ({
-  homepage: {
-    height: '85vh',
-    display: 'flex',
-    padding: '8px 0px',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  btn: {
-    fontSize: '1.6rem',
-  },
-}));
+// styles
+import homePageStyles from './homePageStyles.js';
+const useStyles = makeStyles(homePageStyles);
 
 const HomePage = () => {
-  const { homepage, btn } = useStyles();
+  const { homepage } = useStyles();
 
   return (
     <Box className={homepage} component="section" id="homepage">

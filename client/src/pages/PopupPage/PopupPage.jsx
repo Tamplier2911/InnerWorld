@@ -1,4 +1,3 @@
-import './PopupPage.scss';
 import React from 'react';
 
 // redux
@@ -11,18 +10,9 @@ import Popup from '../../components/Popup/Popup.jsx';
 // mui
 import { Box, makeStyles, Button } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
-  popuppage: {
-    height: '85vh',
-    display: 'flex',
-    padding: '8px 0px',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  btn: {
-    fontSize: '1.6rem',
-  },
-}));
+// styles
+import popupPageStyles from './PopupPageStyles.js';
+const useStyles = makeStyles(popupPageStyles);
 
 const PopupPage = () => {
   const { popuppage, btn } = useStyles();
