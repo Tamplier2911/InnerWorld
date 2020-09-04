@@ -9,6 +9,9 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 
+// opt
+const compression = require('compression');
+
 // logger
 const morgan = require('morgan');
 
