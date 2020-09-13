@@ -26,8 +26,8 @@ const useStyles = makeStyles(loginFormStyles);
 const LoginForm = () => {
   const { container, form, header, btn } = useStyles();
   const [userCredentials, setUserCredentials] = useState({
-    email: 'admin@admin.net',
-    password: 'admin',
+    email: '',
+    password: '',
   });
   const { email, password } = userCredentials;
 
