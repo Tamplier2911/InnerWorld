@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // redux
-import { useSelector, useDispatch } from 'react-redux';
-import { logUserOut } from '../../redux/auth/auth.actions';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { logUserOut } from '../../redux/auth/auth.actions';
+
+// context
+import AuthContext from '../../contexts/authContext.js';
+import InfoContext from '../../contexts/infoContext.js';
 
 // mui
 import {
@@ -29,8 +33,12 @@ const Header = () => {
   const history = useHistory();
 
   // redux
-  const { isLogged, authObject } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+  // const { isLogged, authObject } = useSelector((state) => state.auth);
+  // const dispatch = useDispatch();
+
+  // context
+  const { isLogged, authObject, logUserOut } = useContext(AuthContext);
+  const { openInfoBar } = useContext(InfoContext);
 
   const getLocationText = (pathname) => {
     return pathname === '/page-1'
@@ -66,7 +74,8 @@ const Header = () => {
               color="inherit"
               onClick={() =>
                 isLogged
-                  ? dispatch(logUserOut()) && history.push('/')
+                  ? /*dispatch(logUserOut())*/ logUserOut(openInfoBar) &&
+                    history.push('/')
                   : history.push('/')
               }
             >

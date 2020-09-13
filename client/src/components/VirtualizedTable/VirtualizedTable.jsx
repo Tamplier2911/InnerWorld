@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 // redux
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  toggleAllTableCheck,
-  toggleSingleTableCheck,
-} from '../../redux/table/table.actions';
-import {
-  toggleSingleListCheck,
-  toggleAllListCheck,
-} from '../../redux/list/list.actions';
+// import { useSelector, useDispatch } from 'react-redux';
+// import {
+//   toggleAllTableCheck,
+//   toggleSingleTableCheck,
+// } from '../../redux/table/table.actions';
+// import {
+//   toggleSingleListCheck,
+//   toggleAllListCheck,
+// } from '../../redux/list/list.actions';
+
+// context
+import ListContext from '../../contexts/listContext.js';
+import TableContext from '../../contexts/tableContext.js';
 
 // mui
 import { TableCell, Checkbox } from '@material-ui/core';
@@ -24,8 +28,16 @@ import VirtualizedTableStyles from './VirtualizedTableStyles.js';
 const MuiVirtualizedTable = React.memo((props) => {
   const { columns, classes, onRowClick, ...tableProps } = props;
   const state = { headerHeight: 48, rowHeight: 48 };
-  const dispatch = useDispatch();
-  const { allChecked } = useSelector((state) => state.table);
+  // const dispatch = useDispatch();
+  // const { allChecked } = useSelector((state) => state.table);
+
+  // context
+  const { toggleSingleListCheck, toggleAllListCheck } = useContext(ListContext);
+  const {
+    allChecked,
+    toggleSingleTableCheck,
+    toggleAllTableCheck,
+  } = useContext(TableContext);
 
   // index getter
   const getRespectiveIndex = (e) =>
@@ -63,8 +75,10 @@ const MuiVirtualizedTable = React.memo((props) => {
             color="primary"
             onClick={(e) => {
               const id = getRespectiveIndex(e);
-              dispatch(toggleSingleListCheck(id));
-              dispatch(toggleSingleTableCheck(id));
+              // dispatch(toggleSingleListCheck(id));
+              toggleSingleListCheck(id);
+              // dispatch(toggleSingleTableCheck(id));
+              toggleSingleTableCheck(id);
             }}
             // inputProps={{ 'aria-labelledby': id }}
           />
@@ -109,9 +123,10 @@ const MuiVirtualizedTable = React.memo((props) => {
             color="primary"
             checked={allChecked}
             onChange={() => {
-              dispatch(toggleAllListCheck());
-              dispatch(toggleAllTableCheck());
-              // console.log('checkall');
+              // dispatch(toggleAllListCheck());
+              toggleAllListCheck();
+              // dispatch(toggleAllTableCheck());
+              toggleAllTableCheck();
             }}
             inputProps={{ 'aria-label': 'select all' }}
           />

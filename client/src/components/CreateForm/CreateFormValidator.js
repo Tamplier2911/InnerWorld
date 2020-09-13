@@ -35,7 +35,7 @@ const createFormValidator = (userCredentials) => {
 
   // to be email
   email.forEach((em, i) => {
-    if (!validator.isEmail(em)) {
+    if (em !== '' && !validator.isEmail(em)) {
       isValid = false;
       errors.email[i] = 'Email must match respective pattern.';
     }
@@ -45,13 +45,16 @@ const createFormValidator = (userCredentials) => {
   // to star with "+"
   // to contain only 13 charcaters
   phone.forEach((ph, i) => {
-    if (ph.length < 13 || ph.length > 13) {
+    if (ph !== '' && (ph.length < 13 || ph.length > 13)) {
       isValid = false;
       errors.phone[i] = 'Phone length must consist of 13 characters.';
-    } else if (!ph.startsWith('+')) {
+    } else if (ph !== '' && !ph.startsWith('+')) {
       isValid = false;
       errors.phone[i] = "Phone must start with '+' character.";
-    } else if (!validator.isMobilePhone(ph, 'uk-UA', { strictMode: true })) {
+    } else if (
+      ph !== '' &&
+      !validator.isMobilePhone(ph, 'uk-UA', { strictMode: true })
+    ) {
       isValid = false;
       errors.phone[i] = 'Phone must be valid ukrainian number.';
     }

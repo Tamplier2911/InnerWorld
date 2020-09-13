@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // redux
-import { useDispatch } from 'react-redux';
-import { openPopup } from '../../redux/popup/popup.actions';
+// import { useDispatch } from 'react-redux';
+// import { openPopup } from '../../redux/popup/popup.actions';
 
 // components
 import Popup from '../../components/Popup/Popup.jsx';
@@ -16,7 +16,18 @@ const useStyles = makeStyles(popupPageStyles);
 
 const PopupPage = () => {
   const { popuppage, btn } = useStyles();
-  const dispatch = useDispatch();
+
+  const [popupOpen, setPopupOpen] = useState(false);
+
+  const openPopup = () => {
+    setPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setPopupOpen(false);
+  };
+
+  // const dispatch = useDispatch();
   return (
     <Box className={popuppage} component="section" id="popuppage">
       <Button
@@ -24,11 +35,12 @@ const PopupPage = () => {
         size="large"
         variant="contained"
         color="primary"
-        onClick={() => dispatch(openPopup())}
+        // onClick={() => dispatch(openPopup())}
+        onClick={openPopup}
       >
         Open
       </Button>
-      <Popup />
+      <Popup {...{ popupOpen, closePopup }} />
     </Box>
   );
 };

@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 // redux
-import { useDispatch, useSelector } from 'react-redux';
-import { removeUser } from '../../redux/users/users.actions.js';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { removeUser } from '../../redux/users/users.actions.js';
+
+// context
+import UsersContext from '../../contexts/usersContext.js';
+import InfoContext from '../../contexts/infoContext.js';
 
 // components
 import DialogFeed from '../DialogFeed/DialogFeed.jsx';
@@ -86,8 +90,11 @@ const UsersHolder = ({ setValue, setEdit }) => {
   } = useStyles();
 
   // redux
-  const { usersList, isLoading } = useSelector((state) => state.users);
-  const dispatch = useDispatch();
+  // const { usersList, isLoading } = useSelector((state) => state.users);
+  // const dispatch = useDispatch();
+
+  const { usersList, removeUser, isLoading } = useContext(UsersContext);
+  const { openInfoBar } = useContext(InfoContext);
 
   // inner state
   const [searchInput, setSearchInput] = useState('');
@@ -153,7 +160,8 @@ const UsersHolder = ({ setValue, setEdit }) => {
               open: true,
               onClose: () => setDialogOpen(resetObj),
               action: () => {
-                dispatch(removeUser(userObj));
+                // dispatch(removeUser(userObj));
+                removeUser(userObj, openInfoBar);
                 setDialogOpen(resetObj);
               },
               title: 'Attention!',
@@ -232,19 +240,20 @@ const UsersHolder = ({ setValue, setEdit }) => {
                     })
                   : filteredUsers.map((userObj) => {
                       const {
-                        _id,
+                        // _id,
+                        id,
                         firstName,
                         lastName,
                         phone,
                         email,
                       } = userObj;
                       return (
-                        <TableRow hover key={_id}>
+                        <TableRow hover /*key={_id}*/ key={id}>
                           {headers.map((head, idx) => {
                             return (
                               <TableCell
                                 className={rowCell}
-                                key={`${_id}-${idx}`}
+                                key={`${/*_id*/ id}-${idx}`}
                                 align="center"
                               >
                                 {idx === 0

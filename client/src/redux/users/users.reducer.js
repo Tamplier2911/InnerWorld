@@ -17,7 +17,7 @@ const {
 const INITIAL_STATE = {
   usersList: [],
   isLoading: false,
-  errorMessage: "'",
+  errorMessage: '',
 };
 
 const updateRespectiveUserData = (usersList, updatedUserObject) => {

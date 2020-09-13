@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 // redux
-import { useDispatch, useSelector } from 'react-redux';
-import { createNewUser, updateUserData } from '../../redux/users/users.actions';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { createNewUser, updateUserData } from '../../redux/users/users.actions';
+
+// context
+import UsersContext from '../../contexts/usersContext.js';
+import InfoContext from '../../contexts/infoContext.js';
 
 // validator
 import createFormValidator from './CreateFormValidator';
@@ -35,8 +39,13 @@ const CreateForm = ({ edit }) => {
     addBtn,
   } = useStyles();
 
-  const { isLoading } = useSelector((state) => state.users);
-  const dispatch = useDispatch();
+  // redux
+  // const { isLoading } = useSelector((state) => state.users);
+  // const dispatch = useDispatch();
+
+  // context
+  const { isLoading, createNewUser, updateUserData } = useContext(UsersContext);
+  const { openInfoBar } = useContext(InfoContext);
 
   const [userCredentials, setUserCredentials] = useState({
     firstName: edit.mode ? edit.obj.firstName : '',
@@ -65,14 +74,17 @@ const CreateForm = ({ edit }) => {
     }
 
     // perform user creation
-    if (!edit.mode) dispatch(createNewUser(userCredentials));
+    // if (!edit.mode) dispatch(createNewUser(userCredentials));
+    if (!edit.mode) createNewUser(userCredentials, openInfoBar);
 
     // perform user update
     if (edit.mode) {
-      userCredentials._id = edit.obj._id;
+      // userCredentials._id = edit.obj._id;
+      userCredentials.id = edit.obj.id;
       userCredentials.phone = userCredentials.phone.filter((str) => str !== '');
       userCredentials.email = userCredentials.email.filter((str) => str !== '');
-      dispatch(updateUserData(userCredentials));
+      // dispatch(updateUserData(userCredentials));
+      updateUserData(userCredentials, openInfoBar);
     }
 
     // reset form inputs

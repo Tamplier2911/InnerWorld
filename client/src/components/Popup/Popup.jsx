@@ -1,8 +1,11 @@
-import React, { createRef } from 'react';
+import React, { createRef, useContext } from 'react';
 
 // redux
-import { useSelector, useDispatch } from 'react-redux';
-import { closePopup } from '../../redux/popup/popup.actions';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { closePopup } from '../../redux/popup/popup.actions';
+
+// context
+import ListContext from '../../contexts/listContext.js';
 
 // components
 import ListItem from '../ListItem/ListItem.jsx';
@@ -23,12 +26,15 @@ import { Pagination, PaginationItem } from '@material-ui/lab';
 import popupStyles from './PopupStyles.js';
 const useStyles = makeStyles(popupStyles);
 
-const Popup = () => {
+const Popup = ({ popupOpen, closePopup }) => {
   const { dialogContent, btn, pagebtn, pagebtnChecked } = useStyles();
 
-  const { popupOpen } = useSelector((state) => state.popup);
-  const { listItems } = useSelector((state) => state.list);
-  const dispatch = useDispatch();
+  // const { popupOpen } = useSelector((state) => state.popup);
+  // const { listItems } = useSelector((state) => state.list);
+  // const dispatch = useDispatch();
+
+  // context
+  const { listItems } = useContext(ListContext);
 
   // filtered checked items
   const checkedIds = [];
@@ -52,7 +58,8 @@ const Popup = () => {
 
   return (
     <Dialog
-      onClose={() => dispatch(closePopup())}
+      // onClose={() => dispatch(closePopup())}
+      onClose={closePopup}
       open={popupOpen}
       aria-labelledby="data-bars"
       fullWidth={true}
@@ -95,7 +102,8 @@ const Popup = () => {
           size="large"
           variant="outlined"
           color="primary"
-          onClick={() => dispatch(closePopup())}
+          // onClick={() => dispatch(closePopup())}
+          onClick={closePopup}
         >
           Cancel
         </Button>
@@ -104,7 +112,8 @@ const Popup = () => {
           size="large"
           variant="contained"
           color="primary"
-          onClick={() => dispatch(closePopup())}
+          // onClick={() => dispatch(closePopup())}
+          onClick={closePopup}
         >
           Ok
         </Button>

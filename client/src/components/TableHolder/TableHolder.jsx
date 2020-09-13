@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 // redux
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
+
+// context
+import TableContext from '../../contexts/tableContext.js';
 
 // mui
 import { Paper } from '@material-ui/core';
@@ -10,7 +13,9 @@ import { Paper } from '@material-ui/core';
 import VirtualizedTable from '../VirtualizedTable/VirtualizedTable.jsx';
 
 const TableHolder = () => {
-  const data = useSelector((state) => state.table.tableData);
+  // const data = useSelector((state) => state.table.tableData);
+  const { tableData } = useContext(TableContext);
+
   const tableHeaders = [
     {
       width: 146,
@@ -34,8 +39,10 @@ const TableHolder = () => {
   return (
     <Paper style={{ height: '100%', width: '100%' }}>
       <VirtualizedTable
-        rowCount={data.length}
-        rowGetter={({ index }) => data[index]}
+        // rowCount={data.length}
+        rowCount={tableData.length}
+        // rowGetter={({ index }) => data[index]}
+        rowGetter={({ index }) => tableData[index]}
         columns={tableHeaders}
       />
     </Paper>

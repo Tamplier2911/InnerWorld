@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 // redux
-import { connect } from 'react-redux';
-import { openInfoBar } from '../../redux/infobar/infobar.actions.js';
+// import { connect } from 'react-redux';
+// import { openInfoBar } from '../../redux/infobar/infobar.actions.js';
 
 // mui
 import { Box, Typography } from '@material-ui/core';
@@ -23,10 +23,10 @@ class ErrorBoundary extends Component {
 
   componentDidCatch(error, info) {
     // open infobar
-    this.props.openInfoBar({
-      message: error.message || 'You likely experienced connection issues!',
-      severity: 'error',
-    });
+    // this.props.openInfoBar({
+    //   message: error.message || 'You likely experienced connection issues!',
+    //   severity: 'error',
+    // });
   }
 
   errorBoundaryStyles(theme) {
@@ -67,4 +67,5 @@ class ErrorBoundary extends Component {
   }
 }
 
-export default connect(null, { openInfoBar })(ErrorBoundary);
+// export default connect(null, { openInfoBar })(ErrorBoundary);
+export default ErrorBoundary;

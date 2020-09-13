@@ -9,12 +9,12 @@ import infobarReducer from './infobar/infobar.reducer.js';
 import usersReducer from './users/users.reducer.js';
 
 const rootReducer = combineReducers({
-  auth: authReducer,
-  popup: popupReducer,
-  infobar: infobarReducer,
-  list: listReducer,
-  table: tableReducer,
-  users: usersReducer,
+  auth: authReducer, // done
+  popup: popupReducer, // done
+  infobar: infobarReducer, // done
+  list: listReducer, // done
+  table: tableReducer, // done
+  users: usersReducer, // done
 });
 
 export default rootReducer;

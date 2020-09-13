@@ -1,11 +1,26 @@
-import React, { useEffect, useCallback, Suspense, lazy } from 'react';
+import React, {
+  useEffect,
+  useContext,
+  // useCallback,
+  Suspense,
+  lazy,
+} from 'react';
 
 // routing
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 // redux
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllUsers } from './redux/users/users.actions.js';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { fetchAllUsers } from './redux/users/users.actions.js';
+
+// context providers
+import { ListContext } from './contexts/listContext.js';
+import { TableContext } from './contexts/tableContext.js';
+
+// context consumers
+import AuthContext from './contexts/authContext.js';
+import UsersContext from './contexts/usersContext.js';
+import InfoContext from './contexts/infoContext.js';
 
 // pages
 // import HomePage from './pages/HomePage/HomePage.jsx';
@@ -34,17 +49,26 @@ const useStyles = makeStyles(appStyles);
 
 const App = () => {
   const classes = useStyles();
-  const { isLogged } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+
+  // redux
+  // const { isLogged } = useSelector((state) => state.auth);
+  // const dispatch = useDispatch();
+
+  // context
+  const { isLogged } = useContext(AuthContext);
+  const { fetchAllUsers, createUsersTable } = useContext(UsersContext);
+  const { openInfoBar } = useContext(InfoContext);
 
   // memo
-  const memoizedFetcher = useCallback(() => {
-    dispatch(fetchAllUsers());
-  }, []);
+  // const memoizedFetcher = useCallback(() => {
+  //   dispatch(fetchAllUsers());
+  // }, []);
 
   // on mount
   useEffect(() => {
-    memoizedFetcher();
+    createUsersTable(openInfoBar);
+    fetchAllUsers(openInfoBar);
+    // memoizedFetcher();
   }, []);
 
   return (
@@ -56,16 +80,20 @@ const App = () => {
           <Switch>
             <ErrorBoundary>
               <Suspense fallback={<Spinner />}>
-                <Route
-                  exact
-                  path="/page-1"
-                  render={() => (isLogged ? <PopupPage /> : <HomePage />)}
-                />
-                <Route
-                  exact
-                  path="/page-2"
-                  render={() => (isLogged ? <CheckPage /> : <HomePage />)}
-                />
+                <TableContext>
+                  <ListContext>
+                    <Route
+                      exact
+                      path="/page-1"
+                      render={() => (isLogged ? <PopupPage /> : <HomePage />)}
+                    />
+                    <Route
+                      exact
+                      path="/page-2"
+                      render={() => (isLogged ? <CheckPage /> : <HomePage />)}
+                    />
+                  </ListContext>
+                </TableContext>
                 <Route
                   exact
                   path="/page-3"
